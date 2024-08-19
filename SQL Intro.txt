@@ -1,0 +1,51 @@
+connect
+user-name: system
+pwd: mscdata
+
+------TABLE 1-------
+create table ElectrifyElectronics(Pid varchar(20) PRIMARY KEY , Pname varchar(30) , Price number(6));
+
+/*
+1.domain constraint- varchar(20) here is domain constraint which will only accept texts or strings. The value 20 here represents the length of the text.
+
+2.Entity integrity constraint- PRIMARY KEY is entity integrity constraint as it will never accept null values(null values- anything unknown or void of data or not applicable). Such constraints are Entity integrity constraint.
+
+3.Referential integrity constraint-
+
+4.Semantic constraint- e.g.: CHECK we use it when we want the values to remain with a particular range.
+
+5.NOT NULL constraint- when we specifically do not want the date in the column to be NULL. This can only be defined at column level.
+
+6.UNIQUE constraint- when we want to have the column only unique values it might have null values.
+
+7.DEFAULT constraint- when we want the column to have default values. It might get overwritten when we specify a particular value.
+
+*/
+
+desc ElectrifyElectronics;
+
+
+insert into ElectrifyElectronics values('Pl' , 'Earphone' , 500);
+insert into ElectrifyElectronics values('P2' , 'Mobile' , 12000);
+insert into ElectrifyElectronics values('P3' , 'USB disk storage' , 400);
+insert into ElectrifyElectronics values('P4' , 'Airpods' , 2500);
+insert into ElectrifyElectronics values('P5' , 'Smart Watch' , 4500);
+
+select * from ElectrifyElectronics;
+select Pname from ElectrifyElectronics;
+select Pname , Price from ElectrifyElectronics; 
+select Pid , Pname  from ElectrifyElectronics;
+
+select Pname from ElectrifyElectronics where Price>1000;
+select Pname from ElectrifyElectronics where Price<1000;
+select Pname from ElectrifyElectronics where Price between 2000 and 4000;
+select Pname from ElectrifyElectronics where Price>=2000 and Price<=4000;
+select Pname from ElectrifyElectronics where Price>=3000;
+select Pname from ElectrifyElectronics where Price<=5000;
+
+
+
+------TABLE 2------
+create table Department5(Did varchar(20) PRIMARY KEY, Dname varchar(30) NOT NULL CHECK(Dname IN ('Development', 'Analytics' , 'R&D' , 'Tech Support')), Dloc varchar(
+40) NOT NULL , DateOfSetup DATE NOT NULL);
+
