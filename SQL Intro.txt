@@ -46,6 +46,5 @@ select Pname from ElectrifyElectronics where Price<=5000;
 
 
 ------TABLE 2------
-create table Department5(Did varchar(20) PRIMARY KEY, Dname varchar(30) NOT NULL CHECK(Dname IN ('Development', 'Analytics' , 'R&D' , 'Tech Support')), Dloc varchar(
-40) NOT NULL , DateOfSetup DATE NOT NULL);
+create table Department5(Did varchar(20) PRIMARY KEY, Dname varchar(30) NOT NULL CHECK(Dname IN ('Development', 'Analytics' , 'R&D' , 'Tech Support')), Dloc varchar(40) NOT NULL , DateOfSetup DATE NOT NULL);
 
