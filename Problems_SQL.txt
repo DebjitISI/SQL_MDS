@@ -1,0 +1,42 @@
+#1. Order of table creation matters whenever there is a usage of foreign key. As when relating the foreign key to a different table we first create the table and then mention the relation, but if we use foreign key in the same table we can mention it while creating the table itself.
+
+#2. Order now in which we remove the tables created above should be reversed i.e, we first remove the table where foreign key is mentioned and then remove the first table.
+
+#3. We cannot enter any value in foreign key other than the values assigned to it by the primary key
+
+create table Department(Did varchar(10) PRIMARY KEY , Dname varchar(30) NOT NULL CHECK(Dname IN ('Development' , 'Analytics' , 'Research' , 'Tech Support')), Dloc varchar(40) NOT NULL , DateOfSetup DATE NOT NULL);
+
+create table Employee(Eid varchar(10) PRIMARY KEY , Ename varchar(50) NOT NULL , Salary number(8) CHECK(Salary>=25000) , DOB DATE NOT NULL , Did varchar(5) REFERENCES Department(Did) , Supernum varchar(10) REFERENCES Employee(Eid));
+
+insert into Department values('D1' , 'Analytics' , 'Kolkata' , '23-JUN-2020');
+insert into Department values('D2' , 'Analytics', 'Chennai' , '22-JUN-2020');
+insert into Department values('D3' , 'Development' , 'Chennai' , '19-DEC-2020');
+insert into Department values('D4' , 'Research' , 'Mumbai' , '15-NOV-2020');
+insert into Department values('D5' , 'Tech Support' , 'Silchar' , '01-DEC-2021');
+insert into Department values('D6' , 'Tech Support' , 'Noida' , '03-APR-2021');
+
+insert into Employee(Eid , Ename , Salary, DOB , Did) values('E1' , 'ABC' , 25000 , '23-JUN-1991' , 'D1');
+insert into Employee(Eid , Ename , Salary, DOB , Did , Supernum) values('E2' , 'DEF' , 52000 , '04-JAN-1993' , 'D1' , 'E1');
+insert into employee(Eid, Ename, Salary, DOB, Did, SuperNum) values('E3', 'GHI', 45000, '07-SEP-1991', 'D6', 'E1');
+insert into employee(Eid, Ename, Salary, DOB, Did, SuperNum) values('E4', 'JKL', 65000, '01-APR-1991', 'D4', 'E1');
+insert into employee(Eid, Ename, Salary, DOB, Did, SuperNum) values('E5', 'JKL', 62000, '23-AUG-1995', 'D4', 'E1');
+insert into employee(Eid, Ename, Salary, DOB, Did) values('E6', 'ABC', 35000, '3-JUN-1990', 'D2');
+insert into employee(Eid, Ename, Salary, DOB, Did, SuperNum) values('E7', 'PQR', 52000, '13-FEB-1996', 'D3', 'E6');
+insert into employee(Eid, Ename, Salary, DOB, Did, SuperNum) values('E8', 'PQR', 45000, '12-NOV-1993', 'D4', 'E6');
+insert into employee(Eid, Ename, Salary, DOB, Did, SuperNum) values('E9', 'XYZ', 56000, '10-JUN-1993', 'D1', 'E6');
+insert into employee(Eid, Ename, Salary, DOB, Did, SuperNum) values('E10', 'DEF',62000, '30-JUL-1994', 'D5', 'E6');
+
+#1. Display the loction of the analytics department.
+=> select Dloc , Dname from Department where Dname='Analytics';
+
+#2. Q: List the location and date of establishment of technical support department
+=>  select Dloc , DOB , Dname from Department where Dname='Technical Support';
+
+Q3: List the departments established in 2020
+=>  select Dname , DateOfSetup from Department where DateOfSetup=EXTRACT(YEAR form DateOfSetup);
+Q4: List the departments established in first quarter of 2020
+
+Q5: List the departments established in Dec. 2021
+
+
+
