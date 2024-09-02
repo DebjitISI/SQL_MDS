@@ -1,0 +1,55 @@
+#==============PL/SQL==============
+
+
+SET SERVEROUTPUT ON SIZE 4000
+
+DBMS_OUTPUT.PUT_LINE('HELLLO'); //DBMS_OUTPUT is a package and PUT_LINE prints
+
+# We concat 2 strings using || operator.
+
+# Differnece between declaration and defination?
+=> when we declare a variable no memory is allocated. But 
+
+# &variable_name -> takes input from the user
+
+
+#Print the factorial of a number.	
+
+SET SERVEROUTPUT ON
+SET VERIFY OFF
+
+DECLARE
+	n NUMBER;
+	fact NUMBER := 1;
+
+BEGIN
+	n :=&n;
+	
+	for i in 1..n
+	loop
+		fact := fact*i;
+	end loop;
+
+	DBMS_OUTPUT.PUT_LINE('Fact= ' || fact);
+END;
+/
+
+#
+
+SET SERVEROUTPUT ON
+SET VERIFY OFF
+
+DECLARE
+	num1 NUMBER := &n1;
+	num2 NUMBER := &n3;
+	num3 NUMBER := &n3;
+BEGIN
+	if (num1>num2 AND num1>num3) THEN
+		DBMS_OUTPUT.PUT_LINE('MAX ' || num1);
+	elsif (num2>num1 AND num2>num3) THEN
+		DBMS_OUTPUT.PUT_LINE('MAX ' || num2);
+	else
+		DBMS_OUTPUT.PUT_LINE('MAX ' || num3);
+	end if;
+END;
+/
