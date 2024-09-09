@@ -1,0 +1,188 @@
+## ----------EXAMPLE 3-----------
+
+create table MyDepartment(
+Did varchar(20) PRIMARY KEY , 
+Dname varchar(30) NOT NULL CHECK(Dname IN ('Development','Analytics','Research','Tech Support')) , 
+Dloc varchar(40) NOT NULL , 
+DateOfSetup DATE NOT NULL
+);
+
+## foreign key data type should have the same data type as the primary key
+
+create table MyEmployee(
+Eid varchar(20) PRIMARY KEY,
+Ename varchar(30) NOT NULL,
+Salary number(10) DEFAULT 30000,
+DOB date NOT NULL,
+Did varchar(30) REFERENCES MyDepartment(Did),
+SuperNum varchar(10) REFERENCES MyEmployee(Eid) 
+);
+
+insert into MyDepartment values('D1', 'Analytics', 'Kolkata', '23-JUN-2020');
+insert into MyDepartment values('D2', 'Analytics', 'Chennai', '22-JUN-2020');
+insert into MyDepartment values('D3', 'Development', 'Bengaluru', '19-DEC-2020');
+insert into MyDepartment values('D4', 'Development', 'Mumbai', '15-NOV-2020');
+insert into MyDepartment values('D5', 'Tech Support', 'Silchar', '1-DEC-2021');
+insert into MyDepartment values('D6', 'Tech Support', 'Noida', '03-APR-2021');
+
+##if we want to enter the values in the same order we created the column we omit the variable names while inserting. While dong partial insertions and the order in which the variables are mentioned we give the values in that order.
+
+insert into myemployee(Eid, Ename, Salary, DOB, Did) values('E1', 'ABC', 75000, '23-JUN-1991', 'D1');
+insert into myemployee(Eid, Ename, DOB, Did, SuperNum) values('E2', 'DEF', '04-JAN-1993', 'D1', 'E1');
+insert into myemployee(Eid, Ename, DOB, Did, SuperNum) values('E3', 'GHI', '07-SEP-1991', 'D6', 'E1');
+insert into myemployee(Eid, Ename, Salary, DOB, Did, SuperNum) values('E4', 'JKL', 65000, '01-APR-1991', 'D4', 'E1');
+insert into myemployee(Eid, Ename, Salary, DOB, Did, SuperNum) values('E5', 'JKL', 62000, '23-AUG-1995', 'D4', 'E1');
+insert into myemployee(Eid, Ename, Salary, DOB, Did) values('E6', 'ABC', 35000, '3-JUN-1990', 'D2');
+insert into myemployee(Eid, Ename, Salary, DOB, Did, SuperNum) values('E7', 'PQR', 52000, '13-FEB-1996', 'D3', 'E6');
+insert into myemployee(Eid, Ename, Salary, DOB, Did, SuperNum) values('E8', 'PQR', 45000, '12-NOV-1993', 'D4', 'E6');
+insert into myemployee(Eid, Ename, Salary, DOB, Did, SuperNum) values('E9', 'XYZ', 56000, '10-JUN-1993', 'D1', 'E6');
+insert into myemployee(Eid, Ename, Salary, DOB, Did, SuperNum) values('E10', 'DEF',62000, '30-JUL-1994', 'D5', 'E6');
+
+desc mydepartment
+desc myemployee
+
+select * from mydepartment;
+select * from myemployee;
+
+## Q1 Find the names of the departments being run
+select DISTINCT Dname from myDepartment;
+
+## Q2 List the details of the supervisors.
+select * from myemployee where SuperNum is NULL;
+
+## Q3 List the details of employees who are not supervising anyone.
+select * from myemployee where SuperNum is NOT NULL;
+
+## Q4 Display the  name and annual salary of the employees
+select Ename, Salary*12 AS "Annual Salary" from myemployee;
+ ## use double quotes in case of space between words.
+
+##Q5 Increase the salary of the supervisor by 20%.
+UPDATE MyEmployee SET Salary = 1.2*Salary WHERE SuperNum IS NULL;
+
+## use UPDATE command to change instance and use ALTER TABLE to change the schema
+##Q6 Add a column called commission to the Employee table having float data type.
+ ALTER TABLE myemployee ADD Commission NUMBER(8,2);
+
+## Q6 Assign a commission of 1000 to all the employees who are not supervisors.
+UPDATE myemployee SET commission=1000 where SuperNum is NOT NULL;
+
+## Q7 Add a column called email in the Department table
+ALTER TABLE mydepartment ADD Email char(255);
+
+## Q8 modify the datatype of email to varchar
+ALTER TABLE mydepartment modify Email varchar(255);
+
+## Q9 Remove the column email from the table
+ALTER TABLE mydepartment DROP COLUMN Email;
+
+## Q10 Change the column of Dloc to Department_Location
+ALTER  TABLE mydepartment RENAME COLUMN Dloc TO Department_Location;
+
+## Q11 delete the details of the employee who are not supervisors.
+DELETE from myemployee where SuperNum is NOT NULL;
+
+## Q12 delete the details of the employee who are supervisors.
+DELETE from myemployee where SuperNum is NULL;
+
+## As SuperNum is a foreign key referencing to Eid in employee table  so we cannot delete SuperNum before deleting Eid.
+
+## Q13 Remove the department Table.
+DELETE FROM mydepartment;
+
+## What are the 5 aggregate functions
+COUNT()
+MIN()
+MAX()
+SUM()
+AVG()
+
+## -----------EXAMPLE 4-----------
+
+create table Dept(
+deptno number(2,0),
+dname varchar2(14),
+loc varchar2(14),
+constraint pk_dept PRIMARY KEY (deptno)
+);
+
+create table emp(empno number(4,0), 
+ename varchar2(10), 
+job varchar2(9), 
+mgr number(4,0), 
+hiredate date, 
+sal number(7,2), 
+comm number(7,2), 
+deptno number(2,0), 
+constraint pk_emp primary key (empno), 
+constraint fk_deptno foreign key (deptno) references dept (deptno)
+);
+
+insert into DEPT (DEPTNO, DNAME, LOC) values(10, 'ACCOUNTING', 'NEW YORK');
+insert into dept values(20, 'RESEARCH', 'DALLAS');
+insert into dept values(30, 'SALES', 'CHICAGO');
+insert into dept values(40, 'OPERATIONS', 'BOSTON');
+
+insert into emp values(7839, 'KING', 'PRESIDENT', null, '17-NOV-1981', 5000, null, 10);
+insert into emp values(7698, 'BLAKE', 'MANAGER', 7839, '1-MAY-1981', 2850, null, 30);
+insert into emp values(7782, 'CLARK', 'MANAGER', 7839, '09-JUN-1981', 2450, null, 10);
+insert into emp values(7566, 'JONES', 'MANAGER', 7839, '2-APR-1981', 2975, null, 20);
+insert into emp values(7788, 'SCOTT', 'ANALYST', 7566, '13-JUL-1987', 3000, null, 20);
+insert into emp values(7902, 'FORD', 'ANALYST', 7566, '3-DEC-1981', 3000, null, 20);
+insert into emp values(7369, 'SMITH', 'CLERK', 7902, '17-DEC-1980', 800, null, 20);
+insert into emp values(7499, 'ALLEN', 'SALESMAN', 7698, '20-FEB-1981', 1600, 300, 30);
+insert into emp values(7521, 'WARD', 'SALESMAN', 7698, '22-FEB-1981', 1250, 500, 30);
+insert into emp values(7654, 'MARTIN', 'SALESMAN', 7698, '28-SEP-1981', 1250, 1400, 30);
+insert into emp values(7844, 'TURNER', 'SALESMAN', 7698, '8-SEP-1981', 1500, 0, 30);
+insert into emp values(7876, 'ADAMS', 'CLERK', 7788, '13-JUL-1987', 1100, null, 20);
+insert into emp values(7900, 'JAMES', 'CLERK', 7698, '3-DEC-1981', 950, null, 30);
+insert into emp values(7934, 'MILLER', 'CLERK', 7782, '23-JAN-1982', 1300, null, 10);
+
+## '%' and '_' are wildcard characters for pattern matching, '%' stands for 0 or more character and '_' stands for exactly one character.
+
+##Q1 List the employees whose salaries are 800, 1600 or 2450
+
+select ename from emp where sal in(800,1600,2450);
+
+##Q2 List the employee names start with ‘F’
+
+select ename from emp where ename like 'F%';
+
+##Q3 List all employees whose names end with ‘N’
+
+select ename from emp where ename LIKE '%N';
+
+##Q4 List all employees whose job does not start with “CL”
+
+select ename from emp where job NOT LIKE 'CL%';
+
+##Q5 Calculate the average salary of all employees
+select avg(sal) as "Average Salary" from emp;
+ 
+## Q6 Q Calculate the total salary of  all managers
+select sum(sal) as "Total Salary" from emp where job='MANAGER';
+
+##Q7 Find the minimum salary earned by the employees
+
+select min(sal) as"MINIMUM SALARY" from emp;
+
+##Q8 Find the maximum salaries earned by the employees
+select max(sal) as "MAXIMUM SALARY" from emp;
+
+## Q9Find the minimum, maximum and average salary earned by the employees
+
+select min(sal) as "MINIMUM SALARY", max(sal) as "MAXIMUM SALARY", avg(sal) as "AVERAGE SALARY" from emp;
+
+## Q10 Calculate total number of  managers
+
+select count(ename) as "TOTAL NO OF MANAGERS" from emp where job='MANAGER';
+
+##Q11 List the details of all managers in ascending order of joining dates
+
+select * from emp where job='MANAGER' order by hiredate ASC;
+
+## ORDER BY is used to sort the data according to ASC(ascending order) or DESC(descending order). If not mentioned it sorts in ascending order.
+
+## e.g: ORDER BY X ASC,Y DESC;  :- here we temporarily sort based on x in ascending order and then sort it again based on Y in descending order.
+
+
