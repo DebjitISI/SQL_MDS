@@ -1,0 +1,23 @@
+create table emp1(
+Eid number PRIMARY KEY,
+ENAME VARCHAR2(30),
+ESAL number
+);
+
+insert into emp1 values(1,'RAVI SHASTRI',50000);
+insert into emp1 values(2,'Ajay Yadav',55000);
+insert into emp1 values(3,'Virat Kohli',75000);
+insert into emp1 values(4,'Rohit Sharma',85000);
+insert into emp1 values(5,'Kuldeep Yadav',35000);
+
+SAVEPOINT A;
+
+UPDATE emp1 SET ESAL=1.25*ESAL;
+
+SAVEPOINT B;
+
+DELETE from emp1 where EID=5;
+
+ROLLBACK TO B;
+
+ROLLBACK TO A;
