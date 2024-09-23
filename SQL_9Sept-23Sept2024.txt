@@ -326,3 +326,6 @@ SELECT ROWNUM RN , ESAL FROM ( SELECT DISTINCT ESAL FROM EMP11 ORDER BY ESAL DES
 UPDATE EMP11 SET ESAL=51000 WHERE ENAME='KAJOL KIRAN';
 
 SELECT ESAL FROM (SELECT ROWNUM RN , ESAL FROM ( SELECT DISTINCT ESAL FROM EMP11 ORDER BY ESAL DESC)) WHERE RN=3;
+
+## || operator is used for concatenation.
+## '&e_id': takes input from the user for e_id as single quotes are given we need not give them during inputting.
