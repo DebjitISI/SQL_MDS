@@ -1,0 +1,66 @@
+create a table employee with the following fields:
+EID,ENAME,BASIC,CITY
+ where eid is a primary key,ename,basic and city are mandatory
+Basic is a number and should be between 10k and 1 lakh,
+city can be any one of the following Kolkata,Mumbai,Bangalore or Chennai.
+
+create table employee(
+eid NUMBER(3) PRIMARY KEY,
+ename VARCHAR2(40) NOT NULL,
+basic NUMBER(5) NOT NULL,
+city VARCHAR(9) NOT NULL,
+CONSTRAINT basic_ck CHECK(basic BETWEEN 10000 AND 100000),
+CONSTRAINT city_ck CHECK(
+UPPER(city) IN ('KOLKATA','MUMBAI','BANGALORE','CHENNAI')
+)
+);
+
+INSERT INTO employee VALUES(1,'Ranajoy Saha',30000,'KOLKATA');
+INSERT INTO employee VALUES(2,'Apurba Debnath',35000,'KOLKATA');
+INSERT INTO employee VALUES(3,'Nandini Haldar',40000,'BANGALORE');
+INSERT INTO employee VALUES(4,'Chayan Kumar Sengupta',50000,'MUMBAI');
+INSERT INTO employee VALUES(5,'Avishikta Chakraborty',34000,'CHENNAI');
+INSERT INTO employee VALUES(6,'Deep Kumar Ganguly',60000,'BANGALORE');
+INSERT INTO employee VALUES(7,'Adrija Saha',60000,'BANGALORE');
+INSERT INTO employee VALUES(8,'Barman Chakraborty',60000,'BANGALORE');
+INSERT INTO employee VALUES(9,'Sanjana Gill',60000,'BANGALORE');
+INSERT INTO employee VALUES(10,'Shah Rukh Khan',60000,'BANGALORE');
+INSERT INTO employee VALUES(11, 'Juhi Ray',75000,'NAGPUR');
+
+INSERT INTO employee VALUES(11, 'Juhi Ray',75000,'NAGPUR');
+INSERT INTO employee VALUES(11, 'Juhi Ray',75000,'NAGPUR')
+INSERT INTO employee VALUES(12, 'Sanjay Kapoor',65000,'Mumbai');
+INSERT INTO employee VALUES(13, 'S.Suravi',65000,'kolkata')
+
+Uding PL/SQL create a cursor to access the records,
+Calculate the DA (14% of BASIC) , PF (12% of BASIC), GROSS(BASIC+DA+PF) and NET (GROSS - PF) salary of the employee and Display it in the console.
+
+SET SERVEROUTPUT ON;
+DECLARE 
+	CURSOR employee_cursor IS
+	SELECT * FROM employee;
+	v_employee_row employee_cursor%ROWTYPE;
+	v_da NUMBER(7,2);
+	v_pf NUMBER(7,2);
+	v_net NUMBER(7,2);
+	v_gross NUMBER(7,2);
+
+BEGIN
+	OPEN employee_cursor;
+	LOOP
+		FETCH employee_cursor INTO v_employee_row;
+		EXIT WHEN employee_cursor%NOTFOUND;
+		v_da := v_employee_row.basic * (14/100);
+		v_pf := v_employee_row.basic * (12/100);
+		v_gross := v_employee_row.basic + v_da + v_pf;
+		v_net := v_gross - v_pf;
+		DBMS_OUTPUT.PUT_LINE('Employee Name: ' || v_employee_row.ename);
+		DBMS_OUTPUT.PUT_LINE('Basic Salary: ' || v_employee_row.basic);
+		DBMS_OUTPUT.PUT_LINE('DA: ' || v_da);
+		DBMS_OUTPUT.PUT_LINE('PF: ' || v_pf);
+		DBMS_OUTPUT.PUT_LINE('City: ' || v_employee_row.city);
+		DBMS_OUTPUT.PUT_LINE('Gross Salary: ' || v_gross);
+		DBMS_OUTPUT.PUT_LINE('Net Salary: ' || v_net);
+		DBMS_OUTPUT.PUT_LINE('---------------------------------------');	END LOOP;
+	CLOSE employee_cursor;
+END;		

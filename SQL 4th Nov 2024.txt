@@ -1,0 +1,68 @@
+create table product(
+maker CHAR(20) NOT NULL,
+model NUMBER(30) PRIMARY KEY,
+type CHAR(20) CHECK( type IN ('PC', 'LAPTOP', 'PRINTER'))
+);
+
+create table pc(
+model NUMBER(30) PRIMARY KEY,
+speed NUMBER(8,5) NOT NULL,
+ram NUMBER(5) NOT NULL,
+hdd NUMBER(7) NOT NULL,
+cd NUMBER(10),
+price NUMBER(10,2),
+FOREIGN KEY(model) REFERENCES product(model)
+);
+
+create table laptop(
+model NUMBER(30) PRIMARY KEY,
+speed NUMBER(8,5) NOT NULL,
+ram NUMBER(5) NOT NULL,
+screen NUMBER(7) NOT NULL,
+price NUMBER(10,2),
+FOREIGN KEY(model) REFERENCES product(model)
+);
+
+create table printer(
+model NUMBER(30) PRIMARY KEY,
+colour CHAR(8) NOT NULL,
+type CHAR(20) NOT NULL,
+price NUMBER(10,2) NOT NULL,
+FOREIGN KEY(model) REFERENCES product(model)
+);
+
+insert into product values('samsung', 1, 'PC');
+insert into product values('dell', 2, 'PC');
+insert into product values('hp', 11, 'PRINTER');
+insert into product values('canon', 12, 'PRINTER');
+insert into product values('epson', 13, 'PRINTER');
+insert into product values('toshiba', 21, 'LAPTOP');
+insert into product values('hp', 22, 'LAPTOP');
+insert into product values('dell', 23, 'LAPTOP');
+insert into product values('samsung', 3, 'PC');
+insert into product values('intel', 4, 'PC');
+insert into product values('samsung', 5, 'PC');
+insert into product values('apple', 24, 'LAPTOP');
+insert into product values('hp', 6, 'PC');
+insert into product values('canon', 7, 'PC');
+
+INSERT INTO PC VALUES (1,2,500,1000,6,8000);
+INSERT INTO PC VALUES (2,3,1000,512,7,60000);
+INSERT INTO PC VALUES (3,1,256,512,8,9000);
+INSERT INTO PC VALUES (4,2,512,80,10,20000);
+INSERT INTO PC VALUES (5,10,512,256,10,20000);
+INSERT INTO PC VALUES (6,4,256,512,8,60000);
+INSERT INTO PC VALUES (7,3,1000,1024,4,80000);
+
+INSERT INTO LAPTOP VALUES (21,12,1024,15,20000);
+INSERT INTO LAPTOP VALUES (22,15,2048,17,20000);
+INSERT INTO LAPTOP VALUES (23,0,512,20,20000);
+INSERT INTO LAPTOP VALUES (24,2,256,14,45000);
+
+INSERT INTO PRINTER VALUES (11,'white','inkjet',5000);
+INSERT INTO PRINTER VALUES (12,'black','laser',20000);
+INSERT INTO PRINTER VALUES (13,'grey','dot matrix',3000);
+
+
+1. select * from laptop where speed <(select MIN(speed) from pc);
+2. select AVG(hdd) from pc where speed <(select MIN(speed) from pc);
